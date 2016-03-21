@@ -4,6 +4,7 @@
 
 The Kittn API uses the following error codes:
 
+test
 
 Error Code | Meaning
 ---------- | -------
