@@ -3,166 +3,86 @@ title: API Reference
 
 language_tabs:
   - shell
-  - ruby
-  - python
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
+  - <a href='http://devdocs.magento.com/swagger/index.html'>Magento 공식 API 문서</a>
+  - <a href='http://devdocs.magento.com/guides/v2.0/rest/list.html'>Magento 모듈별 REST API 목록</a>
   - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
 
+
 includes:
-  - errors
+  - cms
 
 search: true
 ---
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
-
-We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
-
-This example API documentation page was created with [Slate](https://github.com/tripit/slate). Feel free to edit it and use it as a base for your own API's documentation.
+[Lately](http://lately.co.kr)는 Magento 2.0 기반 서비스입니다. 공식 Magento API에서 다소
+수정된 부분이 있을 수 있으며, 공식 API 이외의 추가된 API들을 제공합니다.
 
 # Authentication
 
-> To authorize, use this code:
+## Token 기반 인증
 
-```ruby
-require 'kittn'
+> 사용자 계정
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
+``` shell
+curl -X POST "lately.co.kr/rest/V1/integration/customer/token" \
+     -H "Content-Type: application/json" \
+     -d '{ "username": "customer@example.com", "password": "password" }'
 ```
 
-```python
-import kittn
+> 관리자 계정
 
-api = kittn.authorize('meowmeowmeow')
+``` shell
+curl -X POST "lately.co.kr/rest/V1/integration/admin/token" \
+     -H "Content-Type: application/json" \
+     -d '{ "username": "customer@example.com", "password": "password" }'
 ```
+
+> 결과는 다음과 같습니다.
+
+``` txt
+gopu2mmnh119bgdwp57d6tdbow5atyxc
+```
+
+Lately API에서 특정 API들은 서버에 요청을 할 때 사용자 혹은 관리자 계정의 권한을 필요로 합니다. 해당
+API들에 권한이 명시되어있지 않으면 권한없이 요청할 수 있는 API입니다. 다음 API들에서 사용자 혹은
+관리자의 계정을 통해 인증이 필요한 API에서 사용될 token을 가져올 수 있습니다.
+
+### HTTP Request
+
+- `POST V1/integration/customer/token`
+- `POST V1/integration/admin/token`
+
+### Payload
+
+Name | Type | Description
+-----|------|------------
+username | string | 사용자 혹은 관리자의 계정
+password | string | 계정의 패스워드
+
+### Returns
+
+32자리의 16진수 문자들로 구성된 token을 리턴합니다.
+
+## Token을 통한 요청
+
+> token을 포함한 요청
 
 ```shell
-# With shell, you can just pass the correct header with each request
 curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
+  -H "Authorization: Bearer meowmeowmeow"
 ```
 
-> Make sure to replace `meowmeowmeow` with your API key.
+> `meowmeowmeow` 부분을 API token으로 수정했는지 확인하세요.
 
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
+Lately API에서 특정 API들은 서버에 요청을 할 때 사용자 혹은 관리자 계정의 API token이 다음과 같이
+헤더에 포함되어있어야 합니다.
 
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
+`Authorization: Bearer meowmeowmeow`
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+<code>meowmeowmeow</code>를 사용자 혹은 관리자 계정의 API token으로 교체해야합니다.
 </aside>
-
-# Kittens
-
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-> The above command returns JSON structured like this:
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
-```
-
-This endpoint retrieves all kittens.
-
-### HTTP Request
-
-`GET http://example.com/api/kittens`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
-}
-```
-
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-### HTTP Request
-
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
-
