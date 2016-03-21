@@ -625,3 +625,18 @@ html, body {
 .highlight, .highlight .w {
   background-color: $code-bg;
 }
+
+
+/**
+ * Lately Custom
+ */
+.logo-wrapper {
+  padding: 20px 0;
+  background-color: white;
+  text-align: center;
+}
+
+.logo-wrapper img {
+  width: 218px;
+  height: 60px;
+}
