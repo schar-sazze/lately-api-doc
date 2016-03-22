@@ -5,7 +5,7 @@
 특정 seller 와의 채팅방을 생성합니다.
 
 ```shell
-curl -XPOST "lately.co.kr/chat-api/V1/rooms \
+curl -XPOST "lately.co.kr/chat-api/V1/rooms" \
   -H 'Authorization: Bearer meowmeowmeow' \
   -H "Content-Type: application/json" \
   -d '{
@@ -45,7 +45,7 @@ userId |  | 대화를 하고자 하는 seller 의 user id
 채팅방에 메세지를 전송합니다
 
 ```shell
-curl -XPOST "lately.co.kr/chat-api/V1/rooms/56ecb0d90b19a68af166585a/messages \
+curl -XPOST "lately.co.kr/chat-api/V1/rooms/56ecb0d90b19a68af166585a/messages" \
   -H 'Authorization: Bearer meowmeowmeow' \
   -H "Content-Type: application/json" \
   -d '{
@@ -86,7 +86,7 @@ message |  | 보내고자하는 메세지
 채팅방의 메세지들을 가져옵니다
 
 ```shell
-curl -XGET "lately.co.kr/chat-api/V1/rooms/56ecb0d90b19a68af166585a/messages?limit=2&before=2016-03-22T00:38:53.954Z \
+curl -XGET "lately.co.kr/chat-api/V1/rooms/56ecb0d90b19a68af166585a/messages?limit=2&before=2016-03-22T00:38:53.954Z" \
   -H 'Authorization: Bearer meowmeowmeow' \
   -H "Content-Type: application/json" \
   -d '{
