@@ -1,159 +1,130 @@
 # Chat
 
-## Chat room 생
+## Chat room 생성
+
+특정 seller 와의 채팅방을 생성합니다.
 
 ```shell
-curl -XPOST "lately.co.kr/chat-api/rooms \
-  -H 'Authorization: Bearer meowmeowmeow'
+curl -XPOST "lately.co.kr/chat-api/V1/rooms \
+  -H 'Authorization: Bearer meowmeowmeow' \
+  -H "Content-Type: application/json" \
   -d '{
          "userId": "seller1"
+      }'
+```
+
+> 위의 명령어는 [Room](#chat-room) 를 반환합니다
+
+``` json
+{
+    "_id": "56ecb1403d37c3b2f1158703",
+    "sellerId": "seller1",
+    "userId": "participants12",
+    "__v": 0,
+    "createdTime": "2016-03-19T01:54:08.584Z"
+}
+```
+
+
+### HTTP Request
+
+`POST chat-api/rooms/`
+
+### Response
+
+JSON [Room](#chat-room)
+
+### Query Parameters
+Parameter | Default | Description
+--------- | ------- | -----------
+userId |  | 대화를 하고자 하는 seller 의 user id
+
+
+## Message 전송
+
+채팅방에 메세지를 전송합니다
+
+```shell
+curl -XPOST "lately.co.kr/chat-api/V1/rooms/56ecb0d90b19a68af166585a/messages \
+  -H 'Authorization: Bearer meowmeowmeow' \
+  -H "Content-Type: application/json" \
+  -d '{
+         "message": "hello seller!"
      }'
 ```
 
-> 위의 명령어는 [Room](#Object-)
+> 위의 명령어는 [Message](#chat-message) 를 반환합니다
 
 ``` json
 {
-  "items": [
-    {
-      "identifier": "no-route",
-      "title": "404 Not Found",
-      "page_layout": "2columns-right",
-      "meta_keywords": "Page keywords",
-      "meta_description": "Page description",
-      "content_heading": "Whoops, our bad...",
-      "content": "<dl>\r\n<dt>The page you requested was not found, and we have a fine guess why.</dt>",
-      "creation_time": "2016-03-01 19:43:56",
-      "update_time": "2016-03-01 19:43:56",
-      "sort_order": "0",
-      "active": true
-    },
-    {
-      "identifier": "home",
-      "title": "Home Page",
-      "page_layout": "1column",
-      "content_heading": "Home Page",
-      "creation_time": "2016-03-01 19:43:56",
-      "update_time": "2016-03-07 08:05:20",
-      "sort_order": "0",
-      "active": true
-    },
-    ...
- ],
-  "search_criteria": {
-    "filter_groups": [],
-    "page_size": 10,
-    "current_page": 0
-  },
-  "total_count": 6
+    "__v": 0,
+    "message": "hello seller!",
+    "roomId": "56ecb0d90b19a68af166585",
+    "userId": "participants12",
+    "_id": "56f09132dfbb293a0c1ffa0f",
+    "createdTime": "2016-03-22T00:26:26.527Z"
 }
 ```
 
-특정 기준에 해당하는 페이지들을 리턴합니다.
 
 ### HTTP Request
 
-`GET cms/page/search`
+`POST chat-api/rooms/:roomId/messages`
 
-## Get a Specific CMS Page
+### Response
+
+JSON [Message](#chat-message)
+
+### Query Parameters
+Parameter | Default | Description
+--------- | ------- | -----------
+message |  | 보내고자하는 메세지
+
+
+## Getting Messages
+
+채팅방의 메세지들을 가져옵니다
 
 ```shell
-curl "http://staging.lately.co.kr/rest/V1/cms/page/2"
+curl -XGET "lately.co.kr/chat-api/V1/rooms/56ecb0d90b19a68af166585a/messages?limit=2&before=2016-03-22T00:38:53.954Z \
+  -H 'Authorization: Bearer meowmeowmeow' \
+  -H "Content-Type: application/json" \
+  -d '{
+         "limit": "hello seller!"
+     }'"
 ```
 
-> The above command returns JSON structured like this:
+> 위의 명령어는 [Message](#chat-message)의 리스트를 반환합니다
 
 ``` json
-{
-  "id": 2,
-  "identifier": "home",
-  "title": "Home Page",
-  "page_layout": "1column",
-  "content_heading": "Home Page",
-  "creation_time": "2016-03-01 19:43:56",
-  "update_time": "2016-03-07 08:05:20",
-  "sort_order": "0",
-  "active": true
-}
+[{
+    "_id": "56f0941edfbb293a0c1ffa10",
+    "message": "hello seller! 2",
+    "roomId": "56ecb0d90b19a68af166585",
+    "userId": "participants12",
+    "__v": 0,
+    "createdTime": "2016-03-22T00:38:54.954Z"
+}, {
+    "_id": "56f09132dfbb293a0c1ffa0f",
+    "message": "hello seller!",
+    "roomId": "56ecb0d90b19a68af166585",
+    "userId": "participants12",
+    "__v": 0,
+    "createdTime": "2016-03-22T00:26:26.527Z"
+}]
 ```
 
-This endpoint retrieves a specific page
 
 ### HTTP Request
 
-`GET cms/page/:page_id`
+`POST chat-api/rooms/:roomId/messages`
 
-## Get All CMS blocks
+### Response
 
-```shell
-curl "http://staging.lately.co.kr/rest/V1/cms/block/search?searchCriteria\[pageSize\]=10&searchCriteria\[currentPage\]=0"
-# or
-curl -G "http://staging.lately.co.kr/rest/V1/cms/block/search" \
-     -d "searchCriteria[pageSize]=10" \
-     -d "searchCriteria[currentPage]=0"
-```
+JSON list of [Message](#chat-message)
 
-> The above command returns JSON structured like this:
-
-``` json
-{
-  "items": [
-    {
-      "identifier": "footer_links_block",
-      "title": "Footer Links Block",
-      "content": "<ul class=\"footer links\">\n    <li class=\"nav item\"><a href=\"{{store url=\"about-us\"}}\">About us</a></li>\n    <li class=\"nav item\"><a href=\"{{store url=\"customer-service\"}}\">Customer Service</a></li>\n</ul>\n",
-      "creation_time": "2016-03-07 08:05:20",
-      "update_time": "2016-03-07 08:05:20",
-      "active": true
-    },
-    {
-      "identifier": "contact-us-info",
-      "title": "Contact us info",
-      "content": "<div class=\"contact-info cms-content\">\n   <p class=\"cms-content-important\">We love hearing from you, our Luma customers. Please contact us about anything at all. Your latest passion, unique health experience or request for a specific product. We’ll do everything we can to make your Luma experience unforgettable every time. Reach us however you like</p>\n   <div class=\"block block-contact-info\">\n       <div class=\"block-title\">\n           <strong>Contact Us Info</strong>\n       </div>\n       <div class=\"block-content\">\n           <div class=\"box box-phone\">\n               <strong class=\"box-title\">\n                   <span>Phone</span>\n               </strong>\n               <div class=\"box-content\">\n                   <span class=\"contact-info-number\">1-800-403-8838</span>\n                   <p>Call the Luma Helpline for concerns, product questions, or anything else. We’re here for you 24 hours a day - 365 days a year.</p>\n               </div>\n           </div>\n           <div class=\"box box-design-inquiries\">\n               <strong class=\"box-title\">\n                   <span>Apparel Design Inquiries</span>\n               </strong>\n               <div class=\"box-content\">\n                   <p>Are you an independent clothing designer? Feature your products on the Luma website! Please direct all inquiries via email to: <a href=\"mailto:cs@luma.com\">cs@luma.com</a></p>\n               </div>\n           </div>\n           <div class=\"box box-press-inquiries\">\n               <strong class=\"box-title\">\n                   <span>Press Inquiries</span>\n               </strong>\n               <div class=\"box-content\">\n                   <p>Please direct all media inquiries via email to: <a href=\"mailto:pr@luma.com\">pr@luma.com</a></p>\n               </div>\n           </div>\n       </div>\n   </div>\n</div>\n",
-      "creation_time": "2016-03-07 08:05:20",
-      "update_time": "2016-03-07 08:05:20",
-      "active": true
-    },
-    ...
-  ],
-  "search_criteria": {
-    "filter_groups": [],
-    "page_size": 10,
-    "current_page": 0
-  },
-  "total_count": 18
-}
-```
-
-
-This endpoint retrieves blocks matching the specified criteria
-
-### HTTP Request
-
-`GET cms/block/search`
-
-## Get a Specific CMS Block
-
-```shell
-curl "http://staging.lately.co.kr/rest/V1/cms/block/1"
-```
-
-> The above command returns JSON structured like this:
-
-``` json
-{
-  "id": 1,
-  "identifier": "footer_links_block",
-  "title": "Footer Links Block",
-  "content": "<ul class=\"footer links\">\n    <li class=\"nav item\"><a href=\"{{store url=\"about-us\"}}\">About us</a></li>\n    <li class=\"nav item\"><a href=\"{{store url=\"customer-service\"}}\">Customer Service</a></li>\n</ul>\n",
-  "creation_time": "2016-03-07 08:05:20",
-  "update_time": "2016-03-07 08:05:20",
-  "active": true
-}
-```
-
-This endpoint retrieves a specific page
-
-### HTTP Request
-
-`GET cms/block/:block_id`
+### Query Parameters
+Parameter | Default | Description
+--------- | ------- | -----------
+before | now | 이 시간 이전의 메세지들만 반환
+limit | 10 | 가져오고자 하는 메세지의 개수

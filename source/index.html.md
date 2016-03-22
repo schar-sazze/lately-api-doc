@@ -12,6 +12,9 @@ toc_footers:
 
 includes:
   - cms
+  - chat
+  - objects
+
 
 search: true
 ---
