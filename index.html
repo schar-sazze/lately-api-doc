@@ -360,6 +360,233 @@ curl -G <span class="s2">"http://staging.lately.co.kr/rest/V1/cms/block/search"<
 
 <p><code class="prettyprint">GET cms/block/:block_id</code></p>
 
+          <h1 id="chat">Chat</h1>
+
+<h2 id="chat-room">Chat room 생성</h2>
+
+<p>특정 seller 와의 채팅방을 생성합니다.</p>
+<pre class="highlight shell"><code>curl -XPOST <span class="s2">"lately.co.kr/chat-api/V1/rooms </span><span class="se">\</span><span class="s2">
+  -H 'Authorization: Bearer meowmeowmeow' </span><span class="se">\</span><span class="s2">
+  -H "</span>Content-Type: application/json<span class="s2">" </span><span class="se">\</span><span class="s2">
+  -d '{
+         "</span>userId<span class="s2">": "</span>seller1<span class="s2">"
+      }'
+</span></code></pre>
+
+<blockquote>
+<p>위의 명령어는 <a href="#chat-room">Room</a> 를 반환합니다</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"56ecb1403d37c3b2f1158703"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"sellerId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"seller1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"userId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"participants12"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"__v"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"createdTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-03-19T01:54:08.584Z"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">POST chat-api/rooms/</code></p>
+
+<h3 id="response">Response</h3>
+
+<p>JSON <a href="#chat-room">Room</a></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>userId</td>
+<td></td>
+<td>대화를 하고자 하는 seller 의 user id</td>
+</tr>
+</tbody></table>
+
+<h2 id="message">Message 전송</h2>
+
+<p>채팅방에 메세지를 전송합니다</p>
+<pre class="highlight shell"><code>curl -XPOST <span class="s2">"lately.co.kr/chat-api/V1/rooms/56ecb0d90b19a68af166585a/messages </span><span class="se">\</span><span class="s2">
+  -H 'Authorization: Bearer meowmeowmeow' </span><span class="se">\</span><span class="s2">
+  -H "</span>Content-Type: application/json<span class="s2">" </span><span class="se">\</span><span class="s2">
+  -d '{
+         "</span>message<span class="s2">": "</span>hello seller!<span class="s2">"
+     }'
+</span></code></pre>
+
+<blockquote>
+<p>위의 명령어는 <a href="#chat-message">Message</a> 를 반환합니다</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"__v"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hello seller!"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"roomId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"56ecb0d90b19a68af166585"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"userId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"participants12"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"56f09132dfbb293a0c1ffa0f"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"createdTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-03-22T00:26:26.527Z"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">POST chat-api/rooms/:roomId/messages</code></p>
+
+<h3 id="response">Response</h3>
+
+<p>JSON <a href="#chat-message">Message</a></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>message</td>
+<td></td>
+<td>보내고자하는 메세지</td>
+</tr>
+</tbody></table>
+
+<h2 id="getting-messages">Getting Messages</h2>
+
+<p>채팅방의 메세지들을 가져옵니다</p>
+<pre class="highlight shell"><code>curl -XGET <span class="s2">"lately.co.kr/chat-api/V1/rooms/56ecb0d90b19a68af166585a/messages?limit=2&amp;before=2016-03-22T00:38:53.954Z </span><span class="se">\</span><span class="s2">
+  -H 'Authorization: Bearer meowmeowmeow' </span><span class="se">\</span><span class="s2">
+  -H "</span>Content-Type: application/json<span class="s2">" </span><span class="se">\</span><span class="s2">
+  -d '{
+         "</span>limit<span class="s2">": "</span>hello seller!<span class="s2">"
+     }'"</span>
+</code></pre>
+
+<blockquote>
+<p>위의 명령어는 <a href="#chat-message">Message</a>의 리스트를 반환합니다</p>
+</blockquote>
+<pre class="highlight json"><code><span class="p">[{</span><span class="w">
+    </span><span class="nt">"_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"56f0941edfbb293a0c1ffa10"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hello seller! 2"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"roomId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"56ecb0d90b19a68af166585"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"userId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"participants12"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"__v"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"createdTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-03-22T00:38:54.954Z"</span><span class="w">
+</span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"56f09132dfbb293a0c1ffa0f"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hello seller!"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"roomId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"56ecb0d90b19a68af166585"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"userId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"participants12"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"__v"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"createdTime"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-03-22T00:26:26.527Z"</span><span class="w">
+</span><span class="p">}]</span><span class="w">
+</span></code></pre>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">POST chat-api/rooms/:roomId/messages</code></p>
+
+<h3 id="response">Response</h3>
+
+<p>JSON list of <a href="#chat-message">Message</a></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>before</td>
+<td>now</td>
+<td>이 시간 이전의 메세지들만 반환</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>10</td>
+<td>가져오고자 하는 메세지의 개수</td>
+</tr>
+</tbody></table>
+
+          <h1 id="objects">Objects</h1>
+
+<p>API 에서 사용되는 객체들의 형식을 설명합니다.</p>
+
+<h2 id="chat-room">Chat Room</h2>
+
+<p>각 채팅방을 나타내는 객체</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>_id</td>
+<td>string</td>
+<td>ID of this chat room</td>
+</tr>
+<tr>
+<td>userId</td>
+<td>string</td>
+<td>User ID</td>
+</tr>
+<tr>
+<td>sellerId</td>
+<td>string</td>
+<td>seller user ID</td>
+</tr>
+<tr>
+<td>createdTime</td>
+<td>string</td>
+<td>time of chat room created ISO 8601 date (2015-03-25T12:00:00)</td>
+</tr>
+</tbody></table>
+
+<h2 id="chat-message">Chat Message</h2>
+
+<p>채팅 메세지</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>_id</td>
+<td>string</td>
+<td>ID of this message</td>
+</tr>
+<tr>
+<td>userId</td>
+<td>string</td>
+<td>Sender User ID</td>
+</tr>
+<tr>
+<td>message</td>
+<td>string</td>
+<td>message</td>
+</tr>
+<tr>
+<td>createdTime</td>
+<td>string</td>
+<td>time of message sent ISO 8601 date (2015-03-25T12:00:00)</td>
+</tr>
+</tbody></table>
+
       </div>
       <div class="dark-box">
           <div class="lang-selector">
