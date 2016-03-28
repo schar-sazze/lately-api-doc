@@ -13,6 +13,7 @@ toc_footers:
 includes:
   - cms
   - chat
+  - wishlist
   - objects
 
 

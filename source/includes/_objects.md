@@ -23,3 +23,30 @@ _id | string | ID of this message
 userId | string | Sender User ID
 message | string | message
 createdTime | string | time of message sent ISO 8601 date (2015-03-25T12:00:00)
+
+## Wishlist Object
+
+찜 목록
+
+Name | Type | Description
+---- | ---- | -----------
+wishlist_id  | int    | Wishlist ID
+customer_id  | int    | Customer ID
+shared       | int    | Sharing flag (0 or 1)
+sharing_code | string | Sharing encrypted code
+updated_at   | string | Last updated date
+items | array([Wishlist Item](#wishlist-item)) | Wishlist items
+
+## Wishlist Item
+
+찜 항목
+
+Name | Type | Description
+---- | ---- | -----------
+wishlist_item_id  | int    | Wishlist item ID
+wishlist_id       | int    | Wishlist ID
+product_id        | int    | Product ID
+store_id          | int    | Store ID
+added_at          | string | Add date and time
+description       | string | Short description of wish list item
+qty               | int    | Qty
