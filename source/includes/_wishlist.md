@@ -1,6 +1,6 @@
-> # Wishlist
+# Wishlist
 
-## Wishlist 목록 조회
+## Get Wishlist
 
 ```shell
 curl "lately.co.kr/rest/V1/wishlist/mine" \
@@ -42,7 +42,7 @@ JSON [Wishlist](#wishlist-object)
 
 
 
-## Wishlist 항목 추가
+## Add an Item to Wishlist
 
 ```shell
 curl -X POST "lately.co.kr/rest/V1/wishlist/mine/2" \
@@ -80,8 +80,7 @@ JSON [Wishlist Item](#wishlist-item)
 
 
 
-## Wishlist 항목 삭제
-
+## Delete an Item in Wishlist
 
 ```shell
 curl -X DELETE "lately.co.kr/rest/V1/wishlist/mine/2" \
@@ -105,8 +104,7 @@ product_id |  | 삭제할 제품의 ID
 
 
 
-
-## Wishlist 횟수 조회
+## How Many Wished
 
 ```shell
 curl "lately.co.kr/rest/V1/wishlist/1"\
