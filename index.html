@@ -517,11 +517,9 @@ curl -G <span class="s2">"http://staging.lately.co.kr/rest/V1/cms/block/search"<
 </tr>
 </tbody></table>
 
-          <blockquote>
-<h1 id="wishlist">Wishlist</h1>
-</blockquote>
+          <h1 id="wishlist">Wishlist</h1>
 
-<h2 id="wishlist">Wishlist 목록 조회</h2>
+<h2 id="get-wishlist">Get Wishlist</h2>
 <pre class="highlight shell"><code>curl <span class="s2">"lately.co.kr/rest/V1/wishlist/mine"</span> <span class="se">\</span>
   -H <span class="s1">'Authorization: Bearer meowmeowmeow'</span>
 </code></pre>
@@ -559,7 +557,7 @@ curl -G <span class="s2">"http://staging.lately.co.kr/rest/V1/cms/block/search"<
 
 <p>JSON <a href="#wishlist-object">Wishlist</a></p>
 
-<h2 id="wishlist">Wishlist 항목 추가</h2>
+<h2 id="add-an-item-to-wishlist">Add an Item to Wishlist</h2>
 <pre class="highlight shell"><code>curl -X POST <span class="s2">"lately.co.kr/rest/V1/wishlist/mine/2"</span> <span class="se">\</span>
   -H <span class="s1">'Authorization: Bearer meowmeowmeow'</span>
 </code></pre>
@@ -603,7 +601,7 @@ curl -G <span class="s2">"http://staging.lately.co.kr/rest/V1/cms/block/search"<
 
 <p>JSON <a href="#wishlist-item">Wishlist Item</a></p>
 
-<h2 id="wishlist">Wishlist 항목 삭제</h2>
+<h2 id="delete-an-item-in-wishlist">Delete an Item in Wishlist</h2>
 <pre class="highlight shell"><code>curl -X DELETE <span class="s2">"lately.co.kr/rest/V1/wishlist/mine/2"</span> <span class="se">\</span>
   -H <span class="s1">'Authorization: Bearer meowmeowmeow'</span>
 </code></pre>
@@ -634,7 +632,7 @@ curl -G <span class="s2">"http://staging.lately.co.kr/rest/V1/cms/block/search"<
 </tr>
 </tbody></table>
 
-<h2 id="wishlist">Wishlist 횟수 조회</h2>
+<h2 id="how-many-wished">How Many Wished</h2>
 <pre class="highlight shell"><code>curl <span class="s2">"lately.co.kr/rest/V1/wishlist/1"</span><span class="se">\</span>
   -H <span class="s2">"Content-Type: application/json"</span>
 </code></pre>
