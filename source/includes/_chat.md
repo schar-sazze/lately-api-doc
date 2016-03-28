@@ -91,7 +91,7 @@ curl -XGET "lately.co.kr/chat-api/V1/rooms/56ecb0d90b19a68af166585a/messages?lim
   -H "Content-Type: application/json" \
   -d '{
          "limit": "hello seller!"
-     }'"
+     }'
 ```
 
 > 위의 명령어는 [Message](#chat-message)의 리스트를 반환합니다
